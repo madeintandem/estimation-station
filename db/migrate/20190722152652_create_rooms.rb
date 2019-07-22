@@ -4,7 +4,7 @@
 class CreateRooms < ActiveRecord::Migration[6.0]
   def change
     create_table :rooms do |table|
-      table.string :name
+      table.string :name, null: false
       table.datetime :closed_at, default: nil
 
       table.timestamps

@@ -10,4 +10,8 @@ class User < ApplicationRecord
   has_many :tickets
   has_many :votes
   belongs_to :room, optional: true
+
+  def join_room(room_id)
+    update(room_id: room_id)
+  end
 end
