@@ -1,0 +1,19 @@
+<% if @room.tickets.last && !current_user.current_vote %>
+  <h3 id="vote-title">Vote</h3>
+  <%= form_tag "/votes", method: :post do %>
+    <%= label_tag :vote_value, "1" %>
+    <%= radio_button_tag 'vote_value', '1' %>
+    <%= label_tag :vote_value, "2" %>
+    <%= radio_button_tag 'vote_value', '2' %>
+    <%= label_tag :vote_value, "3" %>
+    <%= radio_button_tag 'vote_value', '3' %>
+    <%= label_tag :vote_value, "5" %>
+    <%= radio_button_tag 'vote_value', '5' %>
+    <%= label_tag :vote_value, "8" %>
+    <%= radio_button_tag 'vote_value', '8' %>
+
+    <%= hidden_field_tag :room_id, @room.id %>
+    <%= hidden_field_tag :ticket_id, @room.current_ticket.id %>
+    <%= submit_tag "Vote on ticket" %>
+  <% end %>
+<% end %>

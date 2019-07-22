@@ -1,7 +1,4 @@
 <h1><%= @room.name %></h1>
-<% if @room.tickets.last %>
-  <h2>Ticket: <%= @room.current_ticket.title %></h2>
-<% end %>
 
 <%= form_tag "/tickets", method: :post do %>
   <%= label_tag :title, "Ticket identifier" %>
@@ -10,36 +7,32 @@
   <%= submit_tag "Create new ticket" %>
 <% end %>
 
-<% if @room.tickets.last && !current_user.current_vote %>
-  <h3>Vote</h3>
-  <%= form_tag "/votes", method: :post do %>
-    <%= label_tag :vote_value, "1" %>
-    <%= radio_button_tag 'vote_value', '1' %>
-    <%= label_tag :vote_value, "2" %>
-    <%= radio_button_tag 'vote_value', '2' %>
-    <%= label_tag :vote_value, "3" %>
-    <%= radio_button_tag 'vote_value', '3' %>
-    <%= label_tag :vote_value, "5" %>
-    <%= radio_button_tag 'vote_value', '5' %>
-    <%= label_tag :vote_value, "8" %>
-    <%= radio_button_tag 'vote_value', '8' %>
+<div id="render-content">
+  <%= render "content" %>
+</div>
 
-    <%= hidden_field_tag :room_id, @room.id %>
-    <%= hidden_field_tag :ticket_id, @room.current_ticket.id %>
-    <%= submit_tag "Vote on ticket" %>
-  <% end %>
-<% end %>
+<div id="vote-menu">
+  <%= render "vote_menu" %>
+</div>
 
-<h3>Current Users in this room</h3>
-<ul>
-  <% @room.users.each do |user| %>
-    <li><%= user.email %>
-    <% if user.current_vote && @room.votes_count >= @room.users_count %>
-        has voted - <%= user.current_vote.value %>
-      <% end %>
-      <% if user.current_vote && @room.votes_count < @room.users_count %>
-        has voted - XXX
-      <% end %>
-    </li>
-  <% end %>
-</ul>
+  <script>
+setInterval(() => {
+  window.fetch('/statuses/2').then(response => {
+    response.json().then(data => {
+      const renderTarget = document.getElementById('render-content')
+      renderTarget.innerHTML = data.content
+
+      const voteTitleElement = document.getElementById('vote-title')
+      if (voteTitleElement && data.user_vote) {
+        document.getElementById('vote-menu').innerHTML = data.vote_menu
+      }
+
+      if (!voteTitleElement && data.user_vote === false) {
+        document.getElementById('vote-menu').innerHTML = data.vote_menu
+      }
+    })
+  })
+}, 1000)
+
+
+  </script>

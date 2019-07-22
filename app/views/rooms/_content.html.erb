@@ -1,0 +1,26 @@
+
+<% if @room.tickets.last %>
+  <h2 id="ticket-title" data-value="<%= @room.current_ticket.title %>">Ticket: <span id="ticket-title-value"><%= @room.current_ticket.title %></span></h2>
+<% end %>
+
+<% if @room.votes_count >= @room.users_count && @room.current_ticket.votes.pluck(:value).uniq.length == 1 %>
+  Decision: <%= @room.current_ticket.votes.pluck(:value).first %>
+<% end %>
+
+<% if @room.votes_count >= @room.users_count && @room.current_ticket.votes.pluck(:value).uniq.length > 1 %>
+  There was no consensus reached
+<% end %>
+
+<h3>Current Users in this room</h3>
+<ul>
+  <% @room.users.each do |user| %>
+    <li><%= user.email.gsub(/\@.+$/, '') %>
+    <% if user.current_vote && @room.votes_count < @room.users_count %>
+      has voted - XX
+    <% end %>
+    <% if user.current_vote && @room.votes_count >= @room.users_count %>
+      has voted - <%= user.current_vote.value %>
+    <% end %>
+    </li>
+  <% end %>
+</ul>

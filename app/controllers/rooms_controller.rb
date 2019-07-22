@@ -7,7 +7,7 @@ class RoomsController < ApplicationController
   end
 
   def show
-    current_user.join_room(params[:id])
+    current_user.join_room(params[:id]) if current_user.room_id != params[:id]
     @room = Room.find(params[:id])
   end
 end
