@@ -27,10 +27,10 @@ ActiveRecord::Schema.define(version: 2019_07_22_152839) do
     t.string "description"
     t.datetime "closed_at"
     t.integer "value"
-    t.bigint "rooms_id"
+    t.bigint "room_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["rooms_id"], name: "index_tickets_on_rooms_id"
+    t.index ["room_id"], name: "index_tickets_on_room_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -48,13 +48,13 @@ ActiveRecord::Schema.define(version: 2019_07_22_152839) do
   end
 
   create_table "votes", force: :cascade do |t|
-    t.bigint "users_id"
-    t.bigint "tickets_id"
+    t.bigint "user_id"
+    t.bigint "ticket_id"
     t.integer "value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["tickets_id"], name: "index_votes_on_tickets_id"
-    t.index ["users_id"], name: "index_votes_on_users_id"
+    t.index ["ticket_id"], name: "index_votes_on_ticket_id"
+    t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
 end

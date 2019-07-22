@@ -8,7 +8,7 @@ class CreateTickets < ActiveRecord::Migration[6.0]
       t.string :description
       t.datetime :closed_at
       t.integer :value
-      t.references :rooms
+      t.references :room
 
       t.timestamps
     end

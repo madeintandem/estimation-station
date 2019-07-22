@@ -4,4 +4,6 @@
 class Ticket < ApplicationRecord
   has_many :votes
   belongs_to :room
+
+  validates :title, uniqueness: true
 end

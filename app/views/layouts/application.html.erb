@@ -12,6 +12,15 @@
   <body>
     <p class="flash_message--notice"><%= notice %></p>
     <p class="flash_message--alert"><%= alert %></p>
-    <%= yield %>
+    <% if current_user %>
+      signed in as: <%= current_user.email %>
+      <%= link_to "log out", destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= link_to "sign_in", new_user_session_path %>
+    <% end %>
+
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>

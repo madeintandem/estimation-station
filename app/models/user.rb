@@ -14,4 +14,11 @@ class User < ApplicationRecord
   def join_room(room_id)
     update(room_id: room_id)
   end
+
+  def current_vote
+    vote = votes.where(ticket: room.tickets.last).first
+    return nil unless vote.present?
+
+    vote
+  end
 end

@@ -4,8 +4,8 @@
 class CreateVotes < ActiveRecord::Migration[6.0]
   def change
     create_table :votes do |t|
-      t.references :users
-      t.references :tickets
+      t.references :user
+      t.references :ticket
       t.integer :value
 
       t.timestamps
