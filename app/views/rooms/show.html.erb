@@ -1,6 +1,6 @@
 <h1><%= @room.name %></h1>
 <% if @room.tickets.last %>
-  <h2>Ticket: <%= @room.tickets.last.title %></h2>
+  <h2>Ticket: <%= @room.current_ticket.title %></h2>
 <% end %>
 
 <%= form_tag "/tickets", method: :post do %>
@@ -25,7 +25,7 @@
     <%= radio_button_tag 'vote_value', '8' %>
 
     <%= hidden_field_tag :room_id, @room.id %>
-    <%= hidden_field_tag :ticket_id, @room.tickets.last.id %>
+    <%= hidden_field_tag :ticket_id, @room.current_ticket.id %>
     <%= submit_tag "Vote on ticket" %>
   <% end %>
 <% end %>
@@ -34,9 +34,11 @@
 <ul>
   <% @room.users.each do |user| %>
     <li><%= user.email %>
-      <% if user.current_vote %>
-
+    <% if user.current_vote && @room.votes_count >= @room.users_count %>
         has voted - <%= user.current_vote.value %>
+      <% end %>
+      <% if user.current_vote && @room.votes_count < @room.users_count %>
+        has voted - XXX
       <% end %>
     </li>
   <% end %>
