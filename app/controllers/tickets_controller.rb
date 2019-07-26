@@ -3,22 +3,25 @@
 # Ticket controller
 class TicketsController < ApplicationController
   def create
-    ticket = Ticket.where(title: ticket_title_param)
-    return if ticket.present?
+    ticket = Ticket.new(title: ticket_params[:title],
+                        room: Room.find(ticket_params[:room_id]))
 
-    @ticket = Ticket.create(title: ticket_title_param,
-                            room: Room.find(room_id_param))
-
-    redirect_to room_url room_id_param
+    if ticket.save
+      redirect_to room_url ticket_params[:room_id]
+    else
+      prepare_errors(ticket)
+      render template: 'rooms/show'
+    end
   end
 
   private
 
-  def ticket_title_param
-    params.permit(:title).require(:title)
+  def ticket_params
+    params.permit(:title, :room_id)
   end
 
-  def room_id_param
-    params.permit(:room_id).require(:room_id)
+  def prepare_errors(ticket)
+    @alert = ticket.errors.messages
+    @room = Room.find(ticket_params[:room_id])
   end
 end

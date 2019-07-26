@@ -8,31 +8,29 @@
 <% end %>
 
 <div id="render-content">
-  <%= render "content" %>
+  <%= render "rooms/content" %>
 </div>
 
 <div id="vote-menu">
-  <%= render "vote_menu" %>
+  <%= render "rooms/vote_menu" %>
 </div>
 
-  <script>
-setInterval(() => {
-  window.fetch('/statuses/2').then(response => {
-    response.json().then(data => {
-      const renderTarget = document.getElementById('render-content')
-      renderTarget.innerHTML = data.content
+<script>
+  setInterval(() => {
+    window.fetch('/statuses/<%= @room.id %>').then(response => {
+      response.json().then(data => {
+        const renderTarget = document.getElementById('render-content')
+        renderTarget.innerHTML = data.content
 
-      const voteTitleElement = document.getElementById('vote-title')
-      if (voteTitleElement && data.user_vote) {
-        document.getElementById('vote-menu').innerHTML = data.vote_menu
-      }
+        const voteTitleElement = document.getElementById('vote-title')
+        if (voteTitleElement && data.user_vote) {
+          document.getElementById('vote-menu').innerHTML = data.vote_menu
+        }
 
-      if (!voteTitleElement && data.user_vote === false) {
-        document.getElementById('vote-menu').innerHTML = data.vote_menu
-      }
+        if (!voteTitleElement && data.user_vote === false) {
+          document.getElementById('vote-menu').innerHTML = data.vote_menu
+        }
+      })
     })
-  })
-}, 1000)
-
-
-  </script>
+  }, 1000)
+</script>

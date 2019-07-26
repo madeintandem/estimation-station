@@ -1,0 +1,5 @@
+<%= form_tag "/rooms", method: :post do %>
+  <%= label_tag :name, "Room Name" %>
+  <%= text_field_tag :name %>
+  <%= submit_tag "Create Room" %>
+<% end %>

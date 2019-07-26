@@ -12,7 +12,7 @@ class Room < ApplicationRecord
   end
 
   def votes_count
-    return [] if tickets.empty?
+    return 0 if tickets.empty?
 
     current_ticket.votes.count
   end

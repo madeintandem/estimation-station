@@ -4,11 +4,12 @@
 <% end %>
 
 <% if @room.votes_count >= @room.users_count && @room.current_ticket.votes.pluck(:value).uniq.length == 1 %>
+  <h1>🥳</h1>
   Decision: <%= @room.current_ticket.votes.pluck(:value).first %>
 <% end %>
 
 <% if @room.votes_count >= @room.users_count && @room.current_ticket.votes.pluck(:value).uniq.length > 1 %>
-  There was no consensus reached
+  <h1>😡</h1>There was no consensus reached
 <% end %>
 
 <h3>Current Users in this room</h3>
